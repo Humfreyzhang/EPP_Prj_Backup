@@ -1,0 +1,230 @@
+//###########################################################################
+// Description:
+//
+// Task 1~8: CLA task
+//
+//###########################################################################
+// $TI Release: F2803x C/C++ Header Files and Peripheral Examples V130 $
+// $Release Date: May  8, 2015 $
+// $Copyright: Copyright (C) 2009-2015 Texas Instruments Incorporated -
+//             http://www.ti.com/ ALL RIGHTS RESERVED $
+//###########################################################################
+
+#include "DSP28x_Project.h"
+#include "DSP2803x_CLAShared.h"
+#include "t_types.h"
+
+//CLA Local functions
+unsigned char PWM_Dir_Last_Cla;
+
+int32_T Motor_duty_Pre;
+T_CurrentS Cur_Error, Cur_Error_Pre;
+T_Currentb Cur_Desired;
+
+#define Vign_Get(x)  (float)(x*3.3*4.9/4096)
+
+#define Motor_Duty_Max V_PERCENT_MULT_W(0.95)
+#define Motor_Duty_Min V_PERCENT_MULT_W(0.00)
+
+#define VIGN_Level1   (8.0f)
+#define VIGN_Level2  (10.0f)
+#define VIGN_Level3  (12.0f)
+#define VIGN_Level4  (15.0f)
+
+#define Motro_Pra_Index1 (0)
+#define Motro_Pra_Index2 (1)
+#define Motro_Pra_Index3 (2)
+#define Motro_Pra_Index4 (3)
+
+#define ClrPWM5INTFLG()  (EPwm5Regs.ETCLR.bit.INT = 1)
+
+float Motor_Cur_CLA;
+uint8_T Motor_OC_Stop;
+
+float Motor_Actual_DC;
+
+__interrupt void Cla1Task1 ( void )
+{
+    
+ 
+}
+
+//Task 2 : IsenP Current Mesurement 100us
+__interrupt void Cla1Task2 ( void )
+{
+	unsigned int Value_temp,index;
+	
+	IsenP_CLA[NUM_DATA_POINTS -1] = AdcResult.ADCRESULT0;
+	Value_temp = IsenP_CLA[NUM_DATA_POINTS - 1];
+	for(index =0; index < NUM_DATA_POINTS -1; index ++)
+	{
+		IsenP_CLA[index] = IsenP_CLA[index + 1];
+		Value_temp += IsenP_CLA[index];
+	}
+
+	IsenP = Value_temp*0.1;
+	Motor_Cur_CLA =  IsenP*3.3*8.5/4096;//actual motor current, unit: A
+	if( Motor_Cur_CLA > (Motor_Current_Max/2))
+	{
+		Motor_OC_Stop = TRUE;
+	}
+	else
+	{
+		Motor_OC_Stop = FALSE;
+	}
+	
+}
+
+
+__interrupt void Cla1Task3 ( void )
+{
+	
+}
+
+
+__interrupt void Cla1Task4 ( void )
+{
+	
+}
+
+//Task5, Motor control in ervey 1ms
+__interrupt void Cla1Task5 ( void )
+{
+	Motor_DutyCycle_Set(Motor_duty);
+	
+	if(Motor_OC_Stop)
+	{
+		IO_PWM_DC_Set_CLA(Motor_Stop, Motor_Actual_DC);//over current, stop the motor
+	}
+	else
+	{
+		IO_PWM_DC_Set_CLA(Motor_Dir_Command, Motor_Actual_DC);
+	}
+	
+	ClrPWM5INTFLG();
+}
+
+
+__interrupt void Cla1Task6 ( void )
+{
+	
+}
+//Task 7 : Vign and temperature mesurement, 10ms
+__interrupt void Cla1Task7 ( void )
+{
+	Vign = AdcResult.ADCRESULT2;
+	Vtemp = AdcResult.ADCRESULT1;
+}
+
+__interrupt void Cla1Task8 ( void )
+{
+
+}
+
+
+void IO_PWM_DC_Set_CLA(unsigned char Dir, float fDuty)
+{
+
+	if(PWM_Dir_Last_Cla != Dir)
+	{
+		if(Dir == Motor_FWD)
+		{
+		/*A channel with aways high, so the BTN7960 high side will active aways */
+		/*B channel will will clear at zero, and set at compare with period, so the 0 - period will be low
+		and the BTN7960 low side was active*/
+			EPwm1Regs.CMPB = (uint16_T)(((EPwm1Regs.TBPRD + 1)*fDuty));
+			EPwm1Regs.AQCTLA.bit.ZRO = AQ_SET;
+			EPwm1Regs.AQCTLA.bit.CAU = AQ_NO_ACTION;
+			EPwm1Regs.AQCTLB.bit.ZRO = AQ_CLEAR;
+			EPwm1Regs.AQCTLB.bit.CBU = AQ_SET;
+		}
+		else if(Dir == Motor_REV)
+		{
+			EPwm1Regs.CMPA.half.CMPA = (uint16_T)(((EPwm1Regs.TBPRD + 1)*fDuty));
+			EPwm1Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
+			EPwm1Regs.AQCTLA.bit.CAU = AQ_SET;
+			EPwm1Regs.AQCTLB.bit.ZRO = AQ_SET;
+			EPwm1Regs.AQCTLB.bit.CBU = AQ_NO_ACTION;
+		}
+		else
+		{
+			EPwm1Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
+			EPwm1Regs.AQCTLA.bit.CAU = AQ_CLEAR;
+			EPwm1Regs.AQCTLB.bit.ZRO = AQ_CLEAR;
+			EPwm1Regs.AQCTLB.bit.CBU = AQ_CLEAR;
+		}
+	}
+	else
+	{
+		if(Dir == Motor_FWD)
+		{
+			EPwm1Regs.CMPB = (uint16_T)(((EPwm1Regs.TBPRD + 1)*fDuty));
+		}
+		else if(Dir == Motor_REV)
+		{
+			EPwm1Regs.CMPA.half.CMPA = (uint16_T)(((EPwm1Regs.TBPRD + 1)*fDuty));
+		}
+		else
+		{
+			EPwm1Regs.AQCTLA.bit.ZRO = AQ_CLEAR;
+			EPwm1Regs.AQCTLA.bit.CAU = AQ_CLEAR;
+			EPwm1Regs.AQCTLB.bit.ZRO = AQ_CLEAR;
+			EPwm1Regs.AQCTLB.bit.CBU = AQ_CLEAR;
+		}
+	}
+
+	PWM_Dir_Last_Cla = Dir ;
+
+}
+
+void Motor_DutyCycle_Set(float Desired_DC)
+{
+	float DC_Error;
+
+	DC_Error = Desired_DC - Motor_Actual_DC;
+
+	Motor_Actual_DC = Motor_Actual_DC + DC_Error*Motor_P_Slew;
+}
+#if 0
+void Motor_PID_Control(T_Currentb Cur_Desired, T_Currentb Cur_Actual)
+{
+	int32_T Duty;
+	uint8_T index;
+	float VIGN;
+	
+	Cur_Error_Pre = Cur_Error;
+
+	if(Cur_Desired > V_CurrentS(30))
+	{
+		Cur_Desired = V_CurrentS(30);
+	}
+
+	VIGN = Vign_Get(Vign);
+
+	if(VIGN > VIGN_Level4)
+		index = Motro_Pra_Index4;
+	else if(VIGN > VIGN_Level3)	
+		index = Motro_Pra_Index3;
+	else if(VIGN > VIGN_Level2)	
+		index = Motro_Pra_Index2;
+	else
+		index = Motro_Pra_Index1;
+		
+	Cur_Error = (T_CurrentS)(Cur_Desired - Cur_Actual);
+
+	Duty = Motor_duty_Pre + (int16_T)((Cur_Error - Cur_Error_Pre)*Motor_P[index]) + (int16_T)(Cur_Error*Motor_I[index]);
+
+	if(Duty > Motor_Duty_Max)
+	{
+	   Duty = Motor_Duty_Max;
+	}
+	else if(Duty < Motor_Duty_Min)
+	{
+	   Duty = Motor_Duty_Min;
+    }
+    
+	Motor_duty_Pre = Duty;
+	Motor_duty = (T_PERCENT_MULT_W)(Duty);
+}
+#endif
+

@@ -1,0 +1,550 @@
+/*=============================================================================
+**
+**  ASAP2 File
+**
+**  ASAP2 Syntax:        1 40
+**
+**
+**  IEEE-695 Version:    1.0
+**
+**  i695x Version:       V10.7
+**
+**  Options:             Display Format=10.4, Formatted for INCA 2.0.12
+**
+**===========================================================================*/
+
+ASAP2_VERSION				1 40
+					
+/begin PROJECT				TMS28035_EPP
+					""
+
+  /begin HEADER				"EPP Application"
+	 VERSION			"V2.1"
+  /end HEADER
+
+					
+
+  /begin MODULE				TMS28035_EPP
+					""
+					
+					
+    /begin MOD_PAR "MONACO"
+      VERSION     "NA"
+      CUSTOMER_NO "NA"
+      USER        "Your Name"
+      PHONE_NO    ""
+      CPU_TYPE    "TMS28035"
+      ECU         "EPP"
+
+      /begin MEMORY_SEGMENT Code "External Flash Code Space"
+        CODE FLASH INTERN 0x003E8100 0x000FF00 -1 -1 -1 -1 -1
+      /end MEMORY_SEGMENT
+      
+
+      /begin MEMORY_SEGMENT Code "External Flash Calibration Space"
+        DATA FLASH INTERN 0x003E8000 0x00000100 -1 -1 -1 -1 -1
+      /end MEMORY_SEGMENT
+/*
+      /begin MEMORY_SEGMENT Code "External Flash Calibration Space Pattern and Sum"
+        RESERVED FLASH INTERN 0x00000300 0x00000001 -1 -1 -1 -1 -1
+      /end MEMORY_SEGMENT
+
+      /begin MEMORY_SEGMENT Code "External Flash Calibration Space"
+        DATA FLASH INTERN 0x00000301 0x000000FF -1 -1 -1 -1 -1
+      /end MEMORY_SEGMENT
+*/
+
+
+      /begin MEMORY_SEGMENT Data "External RAM Calibration Space"
+        DATA RAM EXTERN 0x00000300 0x00000100 -1 -1 -1 -1 -1
+      /end MEMORY_SEGMENT
+      
+
+	  
+    /end MOD_PAR
+
+    /begin MOD_COMMON         ""
+      BYTE_ORDER        MSB_FIRST
+      ALIGNMENT_LONG    2
+      ALIGNMENT_WORD    1
+	  ALIGNMENT_BYTE    1
+    /end   MOD_COMMON
+
+    /begin IF_DATA ASAP1B_CCP                       /* Specific definition for CCP          */
+
+      /begin SOURCE                                 /* Description of a DAQ                 */
+                                                    /* (Data Acquisition List)              */
+        "1ms"                                     /* Name                                 */
+        1                                           /* Scaling Unit: 3 = 1 ms               */
+        125                                         /* Rate in Scaling Unit: 500            */
+                                                    /* Refresh rate = 1 * 500 ms = 500ms    */
+                                                    /* Codes for Scaling units (CSE) look at*/
+                                                    /* ASAP1b Specification                 */
+        DISPLAY_IDENTIFIER  DAQ0 
+        /begin QP_BLOB                              /* The QP-BLOB specify the behavior of  */
+                                                    /* the corresponding DAQ-List           */
+          0                                         /* Number of DAQ-list                   */
+          LENGTH         0x02                       /* Number of ODT's, which can be in-    */
+                                                    /* serted to this DAQ                   */
+          CAN_ID_FIXED   0x7D4                      /* CAN-ID for measuring this DAQ        */
+          RASTER         0                         /* ECU event-number according to event- */
+                                                    /* number by the keyword RASTER.        */
+          REDUCTION_ALLOWED                         /* Data reduction possible              */
+          FIRST_PID      0x0                      /* First PID for this DAQ               */
+        /end QP_BLOB
+      /end SOURCE
+      
+      /begin SOURCE                                 /* Description of a DAQ                 */
+                                                    /* (Data Acquisition List)              */
+        "10ms"                                      /* Name                                 */
+        1                                           /* Scaling Unit: 1 = 10 us              */
+        1000                                        /* Rate in Scaling Unit: 782            */
+                                                    /* Refresh rate = 1000 * 10 us = 10ms   */
+                                                    /* Codes for Scaling units (CSE) look at*/
+                                                    /* ASAP1b Specification                 */
+        DISPLAY_IDENTIFIER  DAQ1 
+        /begin QP_BLOB                              /* The QP-BLOB specify the behavior of  */
+                                                    /* the corresponding DAQ-List           */
+          1                                         /* Number of DAQ-list                   */
+          LENGTH         0x06                       /* Number of ODT's, which can be in-    */
+                                                    /* serted to this DAQ                   */
+          CAN_ID_FIXED   0x7D5                      /* CAN-ID for measuring this DAQ        */
+          RASTER         1                         /* ECU event-number according to event- */
+                                                    /* number by the keyword RASTER.        */
+          REDUCTION_ALLOWED                         /* Data reduction possible              */
+          FIRST_PID      0x10                       /* First PID for this DAQ               */
+        /end QP_BLOB
+      /end SOURCE
+
+      /begin SOURCE                                 /* Description of a DAQ                 */
+                                                    /* (Data Acquisition List)              */
+        "100ms"                                      /* Name                                 */
+        1                                           /* Scaling Unit: 1 = 10 us              */
+        1562                                        /* Rate in Scaling Unit: 5000           */
+                                                    /* Refresh rate = 5000 * 10us = 50ms    */
+                                                    /* Codes for Scaling units (CSE) look at*/
+                                                    /* ASAP1b Specification                 */
+        DISPLAY_IDENTIFIER  DAQ2 
+        /begin QP_BLOB                              /* The QP-BLOB specify the behavior of  */
+                                                    /* the corresponding DAQ-List           */
+          2                                         /* Number of DAQ-list                   */
+          LENGTH         0x06                       /* Number of ODT's, which can be in-    */
+                                                    /* serted to this DAQ                   */
+          CAN_ID_FIXED   0x7D6                      /* CAN-ID for measuring this DAQ        */
+          RASTER         2                         /* ECU event-number according to event- */
+                                                    /* number by the keyword RASTER.        */
+          REDUCTION_ALLOWED                         /* Data reduction possible              */
+          FIRST_PID      0x20                       /* First PID for this DAQ               */
+        /end QP_BLOB
+      /end SOURCE   
+      
+      
+      /begin RASTER                                 /* ECU-event specification              */
+        "1ms"                         /* Name of the ECU-event                */
+        "1ms"                                       /* Shortname                            */
+        0                                           /* Number of ECU-event                  */
+        103                                         /* Scaling Unit:                        */
+        2                                           /* Rate in Scaling Unit: 1              */
+                                                    /* Refresh rate =                       */
+                                                    /* every cylinder combustion            */
+                                                    /* Codes for Scaling units (CSE) look at*/
+                                                    /* ASAP1b Specification                 */
+      /end RASTER
+
+      /begin RASTER                                 /* ECU-event specification              */
+        "10ms Trigger"                              /* Name of the ECU-event                */
+        "10ms"                                        /* Shortname                            */
+        1                                          /* Number of ECU-event                  */
+        1                                           /* Scaling Unit: 1 = 10 us              */
+        1000                                        /* Rate in Scaling Unit: 1000           */
+                                                    /* Refresh rate = 1000 * 10 us = 10ms   */
+                                                    /* Codes for Scaling units (CSE) look at*/
+                                                    /* ASAP1b Specification                 */
+      /end RASTER
+
+      /begin RASTER                                 /* ECU-event specification              */
+        "100ms Trigger"                              /* Name of the ECU-event                */
+        "100"                                        /* Shortname                            */
+        2                                          /* Number of ECU-event                  */
+        1                                           /* Scaling Unit: 1 = 10 us              */
+        5000                                        /* Rate in Scaling Unit: 5000           */
+                                                    /* Refresh rate = 5000 * 10us = 50ms    */
+                                                    /* Codes for Scaling units (CSE) look at*/
+                                                    /* ASAP1b Specification                 */
+      /end RASTER
+
+
+      /begin SEED_KEY
+             "" 
+             "" 
+             "" 
+      /end SEED_KEY
+
+      /begin TP_BLOB
+        0x0201  /* CCP Version,       High Byte: Version 
+                                      Low Byte : subversion (dec.)            */ 
+        0x0202  /* Blob-Version,      High Byte: Version 
+                                      Low Byte : subversion (dec.)            */ 
+        0x7D0   /* CAN-Message ID for 'Transmitting to ECU (CRM)' 
+                                      Bit31 = 1: extended Identifier 
+                                      Bit31 = 0: standard Identifier          */ 
+        0x7D8   /* CAN-Message ID for 'Receiving from ECU (DTM)' 
+                                      Bit31 = 1: extended Identifier 
+                                      Bit31 = 0: standard Identifier          */ 
+        0x1000  /* Logical CCP-Address of the (station address)               */ 
+        2       /* Byte order of Multiple-byte-items 
+                           1 = high Byte first, 2 = low byte first            */ 
+        BAUDRATE 500000  
+        SAMPLE_POINT 70 
+        SAMPLE_RATE  1 
+        BTL_CYCLES   16 
+        SJW          2 
+        SYNC_EDGE    0  
+
+        DAQ_MODE           1 /* 1 = one DAQ per cycle                   */
+        CONSISTENCY        1 /* 1 = ODT consistant                      */
+        ADDRESS_EXTENSION  0 /* 0 = 1 extension per DAQ (not supported) */
+        RESUME_SUPPORTED     /* necessary for ResumeBit support         */
+     /* STORE_SUPPORTED  */  /* Not supported                           */
+                      
+        /begin CHECKSUM_PARAM
+          0x8001   /* checksum calculation procedure 
+                      standard types not yet defined, 
+                      if greater of equal 1000 : manufacturer specific  */ 
+          0x3FFF   /* Maximum block length used by an ASAP1a-CCP 
+                      command, for checksum calculation procedure  */ 
+          CHECKSUM_CALCULATION ACTIVE_PAGE
+        /end CHECKSUM_PARAM   
+                      
+        /begin DEFINED_PAGES
+          1 "Working page" 0 0x00000300 0x00100 /* To maintian one A2L file the start address of working page is defined as andorra configruation */
+          RAM                                   /* this will be converted according to the actual type of instrumentation.  */
+          RAM_INIT_BY_ECU
+          DEFAULT
+        /end DEFINED_PAGES
+
+        /begin DEFINED_PAGES
+          2 "Reference page" 0 0x003E8000 0x00100
+          FLASH
+          DEFAULT
+        /end DEFINED_PAGES    
+
+        OPTIONAL_CMD 0x0C /* SET_S_STATUS    */
+        OPTIONAL_CMD 0x0D /* GET_S_STATUS    */
+        OPTIONAL_CMD 0x0E /* Build Checksum  */
+        OPTIONAL_CMD 0x11 /* SelectCal page  */
+        OPTIONAL_CMD 0x19 /* Move            */
+
+        
+      /end TP_BLOB
+    /end IF_DATA
+
+    /begin CHARACTERISTIC		K_ADCSelfCal_Enable
+
+					"ADC self calibration enable"
+
+					VALUE
+
+					0x003E801f
+
+					EPP_D_Scalar_UB
+
+					0
+
+					bool_tag
+
+					0.0 1.0
+
+	   DISPLAY_IDENTIFIER		K_ADCSelfCal_Enable
+
+    /end CHARACTERISTIC
+	
+	/begin CHARACTERISTIC		Kf_Motor_P_Max
+
+					"motor park max duty cycle"
+
+					VALUE
+
+					0x003E801d
+
+					EPP_D_Scalar_UB
+
+					0
+
+					dc_to_connter
+
+					0.0 100.0
+
+	   DISPLAY_IDENTIFIER		K_ADCSelfCal_Enable
+
+    /end CHARACTERISTIC
+	
+    /begin MEASUREMENT			GearSt
+					""
+					UWORD
+					_GearStatus_ENUM
+					0 0.000000
+					0.000000 5.000000
+	   ECU_ADDRESS			0x0000049E
+	   DISPLAY_IDENTIFIER		_GearStatus
+    /end MEASUREMENT
+
+    /begin MEASUREMENT			test1
+
+					"TEST1"
+
+					ULONG
+
+					M_DC_DS_Scaling
+
+					0 0.000000
+
+					0.000000 4294967295.000000
+
+	   ECU_ADDRESS			0x000004A0
+
+	   DISPLAY_IDENTIFIER		test1
+
+    /end MEASUREMENT
+	
+    /begin MEASUREMENT			test2
+
+					"TEST2"
+
+					ULONG
+
+					M_DC_DS_Scaling
+
+					0 0.000000
+
+					0.000000 65535.000000
+
+	   ECU_ADDRESS			0x000004A2
+
+	   DISPLAY_IDENTIFIER		test2
+
+    /end MEASUREMENT
+
+    /begin MEASUREMENT			test3
+
+					"TEST3"
+
+					ULONG
+
+					M_DC_DS_Scaling
+
+					0 0.000000
+
+					0.000000 65535.000000
+
+	   ECU_ADDRESS			0x000004A3
+
+	   DISPLAY_IDENTIFIER		test3
+
+    /end MEASUREMENT
+
+    /begin MEASUREMENT			test4
+
+					"TEST4"
+
+					UBYTE
+
+					M_DC_DS_Scaling
+
+					0 0.000000
+
+					0.000000 255.000000
+
+	   ECU_ADDRESS			0x000004A8
+
+	   DISPLAY_IDENTIFIER		test4
+
+    /end MEASUREMENT
+	
+    /begin MEASUREMENT			M_DC
+
+					"Motor_Con.Motor_DC_Output"
+
+					UWORD
+
+					M_DC_DS_Scaling
+
+					0 0.000000
+
+					0.000000 65535.000000
+
+	   ECU_ADDRESS			0x0000049D
+
+	   DISPLAY_IDENTIFIER		Motor_Con.Motor_DC_Output
+
+    /end MEASUREMENT
+
+    /begin MEASUREMENT			Icur
+
+					"IsenP"
+
+					UWORD
+
+					M_CUR_DS_Scaling
+
+					0 0.000000
+
+					0.000000 65535.000000
+
+	   ECU_ADDRESS			0x00001481
+
+	   DISPLAY_IDENTIFIER		IsenP
+
+    /end MEASUREMENT	
+	
+    /begin COMPU_METHOD			_GearStatus_ENUM
+					""
+					TAB_VERB
+					"%10.4"
+					""
+	   COMPU_TAB_REF		_GearStatus_ENUM_TAB
+    /end COMPU_METHOD
+
+	
+    /begin COMPU_VTAB			_GearStatus_ENUM_TAB
+					""
+					TAB_VERB
+					4
+					0 "None"
+					1 "Driver"
+					2 "Rerverse"
+					3 "Park"
+    /end COMPU_VTAB
+
+
+    /begin COMPU_METHOD			M_DC_DS_Scaling
+
+					"Ax + B"
+
+					RAT_FUNC
+
+					"%4.0"
+
+					""
+
+	   COEFFS			0.0 1.0 0.000000 0.0 0.0 1.000000000000
+
+    /end COMPU_METHOD
+	
+    /begin COMPU_METHOD			M_CUR_DS_Scaling
+
+					"Ax + B"
+
+					RAT_FUNC
+
+					"%4.0"
+
+					""
+
+	   COEFFS			0.0 1.0 0.000000 0.0 0.0 1.000000000000
+
+    /end COMPU_METHOD
+
+  
+    /begin FUNCTION			motor_cnm
+					"No Long Identifier"
+      /begin LOC_MEASUREMENT		GearSt
+	                                M_DC
+      /end LOC_MEASUREMENT
+    /end FUNCTION
+
+
+
+    /begin RECORD_LAYOUT		EPP_D_Scalar_UW
+
+	   FNC_VALUES			1 UWORD COLUMN_DIR DIRECT
+
+    /end RECORD_LAYOUT
+	
+	/begin RECORD_LAYOUT		EPP_D_Scalar_UB
+
+	   FNC_VALUES			1 UBYTE COLUMN_DIR DIRECT
+
+    /end RECORD_LAYOUT
+	
+    /begin COMPU_METHOD			EPP_ONEPHY_TO_ONEHEX
+
+					""
+
+					RAT_FUNC
+
+					"%2.0"
+
+					"count"
+
+	   COEFFS			0.0 1.0 0.000000 0.0 0.0 1.000000000000
+
+    /end COMPU_METHOD
+	
+    /begin COMPU_METHOD			bool_tag
+
+					""
+
+					TAB_VERB
+
+					"%10.4"
+
+					""
+
+	   COMPU_TAB_REF		bool_tag_TAB
+
+    /end COMPU_METHOD
+	
+	/begin COMPU_VTAB			bool_tag_TAB
+
+					""
+
+					TAB_VERB
+
+					2
+
+					0 "false"
+
+					1 "true"
+
+    /end COMPU_VTAB
+	
+    /begin COMPU_METHOD			dc_to_connter
+
+					""
+
+					RAT_FUNC
+
+					"%6.2"
+
+					"%"
+
+	   COEFFS			0.0 1.0 0.000000 0.0 0.0 0.5000000000
+
+    /end COMPU_METHOD
+	
+    /begin FUNCTION			app_cald
+					"No Long Identifier"
+      /begin REF_CHARACTERISTIC		Kf_Motor_DC_Park_Max
+					Kf_Motor_DC_unPark_Max
+					Kf_Motor_DC_P
+      /end REF_CHARACTERISTIC
+    /end FUNCTION
+	
+    /begin FUNCTION			hwiocald
+					"No Long Identifier"
+      /begin REF_CHARACTERISTIC		K_ADCSelfCal_Enable
+      /end REF_CHARACTERISTIC
+    /end FUNCTION
+	
+    /begin FUNCTION			Cals_Engine
+					""
+      /begin SUB_FUNCTION		app_cald
+					hwiocald
+      /end SUB_FUNCTION
+    /end FUNCTION
+
+  /end MODULE
+/end PROJECT
+
+

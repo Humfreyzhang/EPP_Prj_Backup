@@ -1,0 +1,1214 @@
+/*
+ * File: NetworkLayerServices_GF.c
+ *
+ * Code generated for Simulink model 'NetworkLayerServices_GF'.
+ *
+ * Model version                  : 1.46
+ * Simulink Coder version         : 8.2 (R2012a) 29-Dec-2011
+ * TLC version                    : 8.2 (Dec 29 2011)
+ * C/C++ source code generated on : Sun Aug 09 16:19:11 2015
+ *
+ * Target selection: ert.tlc
+ * Embedded hardware selection: Freescale->HC(S)12
+ * Code generation objectives:
+ *    1. Execution efficiency
+ *    2. Safety precaution
+ *    3. MISRA-C:2004 guidelines
+ * Validation result: Not run
+ */
+
+#include "NetworkLayerServices_GF.h"
+#include "NetworkLayerServices_GF_private.h"
+
+/* Named constants for Chart: '<Root>/Chart' */
+#define Ne_IN_MultipleFrameTransmission ((uint8_T)2U)
+#define Netw_IN_SingleFrameTransmission ((uint8_T)3U)
+#define NetworkLaye_IN_ConsecutiveFrame ((uint8_T)1U)
+#define NetworkLayerS_event_FC_Received (1L)
+#define NetworkLayerSe_IN_MultipleFrame ((uint8_T)2U)
+#define NetworkLayerSer_IN_Transmission ((uint8_T)2U)
+#define NetworkLayerServ_IN_SingleFrame ((uint8_T)3U)
+#define NetworkLayerServi_IN_FirstFrame ((uint8_T)2U)
+#define NetworkLayerServic_event_CF_END (0L)
+#define NetworkLayerServices_CALL_EVENT (-1L)
+#define NetworkLayerServices_GF_IN_Idle ((uint8_T)1U)
+#define NetworkLayerServices_GF_IN_Init ((uint8_T)1U)
+#define NetworkLayerServices_GF_IN_Wait ((uint8_T)3U)
+#define NetworkLayerServices_G_IN_Start ((uint8_T)4U)
+#define NetworkLayerServices__IN_Switch ((uint8_T)4U)
+#define NetworkLayer_IN_NO_ACTIVE_CHILD ((uint8_T)0U)
+#define NetworkLayer_IN_WaitFlowControl ((uint8_T)3U)
+
+const USDATAREQUEST NetworkLayerServices_GF_rtZUSDATAREQUEST = {
+  diagnostics,                         /* Mtype */
+  0U,                                  /* N_SA */
+  0U,                                  /* N_TA */
+  physical,                            /* N_TAtype */
+  0U,                                  /* N_AE */
+
+  {
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U }
+  ,                                    /* MessageData */
+  0U                                   /* Length */
+} ;                                    /* USDATAREQUEST ground */
+
+const USDATAFFINDICATION NetworkLayerServices_GF_rtZUSDATAFFINDICATION = {
+  diagnostics,                         /* Mtype */
+  0U,                                  /* N_SA */
+  0U,                                  /* N_TA */
+  physical,                            /* N_TAtype */
+  0U,                                  /* N_AE */
+  0U                                   /* Length */
+} ;                                    /* USDATAFFINDICATION ground */
+
+const USDATAINDICATION NetworkLayerServices_GF_rtZUSDATAINDICATION = {
+  diagnostics,                         /* Mtype */
+  0U,                                  /* N_SA */
+  0U,                                  /* N_TA */
+  physical,                            /* N_TAtype */
+  0U,                                  /* N_AE */
+
+  {
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U,
+    0U, 0U, 0U, 0U, 0U, 0U, 0U, 0U }
+  ,                                    /* MessageData */
+  0U,                                  /* Length */
+  N_OK                                 /* N_Result */
+} ;                                    /* USDATAINDICATION ground */
+
+const USDATACONFIRM NetworkLayerServices_GF_rtZUSDATACONFIRM = {
+  diagnostics,                         /* Mtype */
+  0U,                                  /* N_SA */
+  0U,                                  /* N_TA */
+  physical,                            /* N_TAtype */
+  0U,                                  /* N_AE */
+  N_OK                                 /* N_Result */
+} ;                                    /* USDATACONFIRM ground */
+
+/* Exported block signals */
+USDATAREQUEST UdsRequest;              /* '<Root>/In1' */
+USDATAINDICATION UdsIndication;        /* '<Root>/Chart' (Output 2)  */
+USDATACONFIRM UdsConfirm;              /* '<Root>/Chart' (Output 3)  */
+
+/* Block signals and states (auto storage) */
+D_Work_NetworkLayerServices_GF NetworkLayerServices_GF_DWork;
+
+/* External outputs (root outports fed by signals with auto storage) */
+ExternalOutputs_NetworkLayerSer NetworkLayerServices_GF_Y;
+
+/* Forward declaration for local functions */
+static uint8_T NetworkLayerServices_RequestCmd(void);
+static uint8_T NetworkLayerService_CheckResult(void);
+static void NetworkLayerServ_CopyToTxbuffer(uint8_T length);
+static void NetworkLayerServ_GetFCParameter(void);
+static void NetworkLayerServices_GF_Request(void);
+static uint8_T NetworkLayerServi_FrameReceived(void);
+static void NetworkLayerServ_CopyToRxbuffer(uint8_T length);
+static void NetworkLayerService_CheckTatype(void);
+static void NetworkLayerServices_Indication(void);
+uint16_T CsTime_Limited_u16_Par=1000;
+uint16_T CrTime_Limited_u16_Par=1000;
+uint16_T BsTime_Limited_u16_Par=1000;
+
+/* Function for Chart: '<Root>/Chart' */
+static uint8_T NetworkLayerServices_RequestCmd(void)
+{
+  uint8_T y;
+
+  /* Graphical Function 'RequestCmd': '<S1>:466' */
+  /* Transition: '<S1>:472' */
+  /* comment */
+  if (RequestCmd_u8_Sig == 1) {
+    /* Transition: '<S1>:473' */
+    /* Transition: '<S1>:475' */
+    y = 1U;
+    RequestCmd_u8_Sig = 0;
+
+    /* Transition: '<S1>:476' */
+  } else {
+    /* Transition: '<S1>:474' */
+    y = 0U;
+  }
+
+  /* Transition: '<S1>:477' */
+  return y;
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static uint8_T NetworkLayerService_CheckResult(void)
+{
+  uint8_T y;
+
+  /* Graphical Function 'CheckResult': '<S1>:530' */
+  /* Transition: '<S1>:555' */
+  /* comment */
+  if (NetworkLayerServices_GF_DWork.Result_o != N_OK) {
+    /* Transition: '<S1>:554' */
+    /* Transition: '<S1>:553' */
+    UdsConfirm.N_Result = NetworkLayerServices_GF_DWork.Result_o;
+    y = 1U;
+
+    /* Transition: '<S1>:552' */
+  } else {
+    /* Transition: '<S1>:551' */
+    y = 0U;
+  }
+
+  /* Transition: '<S1>:550' */
+  return y;
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static void NetworkLayerServ_CopyToTxbuffer(uint8_T length)
+{
+  uint8_T i;
+
+  /* Graphical Function 'CopyToTxbuffer': '<S1>:58' */
+  /* Transition: '<S1>:69' */
+  i = 0U;
+  while (i < length) {
+    /* Transition: '<S1>:66' */
+    /* Transition: '<S1>:67' */
+    NetworkLayerServices_GF_DWork.tx_buffer[NetworkLayerServices_GF_DWork.tx_buffer_ptr]
+      =
+      NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.MessageData[NetworkLayerServices_GF_DWork.MessageDataPtr];
+
+    /* Transition: '<S1>:65' */
+    i = (uint8_T)(i + 1);
+    NetworkLayerServices_GF_DWork.tx_buffer_ptr = (uint8_T)
+      (NetworkLayerServices_GF_DWork.tx_buffer_ptr + 1);
+    NetworkLayerServices_GF_DWork.MessageDataPtr = (uint8_T)
+      (NetworkLayerServices_GF_DWork.MessageDataPtr + 1);
+  }
+
+  /* Transition: '<S1>:64' */
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static void NetworkLayerServ_GetFCParameter(void)
+{
+  /* Graphical Function 'GetFCParameter': '<S1>:279' */
+  /* Transition: '<S1>:281' */
+  NetworkLayerServices_GF_DWork.BS = (uint8_T)RXbuffer_u8a8_Sig[1];
+  NetworkLayerServices_GF_DWork.STmin = (uint8_T)(RXbuffer_u8a8_Sig[2] / 10);
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static void NetworkLayerServices_GF_Request(void)
+{
+  uint16_T FF_N_PCI;
+  uint16_T MaxBytes;
+  boolean_T guard;
+
+  /* During 'Request': '<S1>:212' */
+  guard = FALSE;
+  switch (NetworkLayerServices_GF_DWork.is_Request) {
+   case NetworkLayerServices_GF_IN_Idle:
+    /* During 'Idle': '<S1>:74' */
+    if (NetworkLayerServices_RequestCmd() != 0) {
+      /* Transition: '<S1>:77' */
+      NetworkLayerServices_GF_DWork.is_Request = NetworkLayerServices_G_IN_Start;
+
+      /* Entry 'Start': '<S1>:49' */
+      UdsConfirm.N_Result = NetworkLayerServices_GF_DWork.Result_o;
+      NetworkLayerServices_GF_DWork.MessageDataPtr = 0U;
+      NetworkLayerServices_GF_DWork.tx_buffer_ptr = 0U;
+      NetworkLayerServices_GF_DWork.TransmissionType = 0U;
+
+      /* Entry Internal 'Start': '<S1>:49' */
+      /* Transition: '<S1>:86' */
+      /* comment */
+      if ((NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length >
+           0U) &&
+          (NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length <=
+           7U)) {
+        /* Transition: '<S1>:88' */
+        /* Transition: '<S1>:89' */
+        NetworkLayerServices_GF_DWork.TransmissionType = 1U;
+
+        /* Transition: '<S1>:92' */
+        /* Transition: '<S1>:93' */
+      } else {
+        /* Transition: '<S1>:87' */
+        if (NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length
+            <= 4095U) {
+          /* Transition: '<S1>:90' */
+          /* Transition: '<S1>:91' */
+          NetworkLayerServices_GF_DWork.TransmissionType = 2U;
+
+          /* Transition: '<S1>:93' */
+        } else {
+          /* Transition: '<S1>:94' */
+          NetworkLayerServices_GF_DWork.Result_o = N_ERROR;
+        }
+      }
+
+      /* Transition: '<S1>:95' */
+    }
+    break;
+
+   case Ne_IN_MultipleFrameTransmission:
+    /* During 'MultipleFrameTransmission': '<S1>:99' */
+    /* Transition: '<S1>:564' */
+    if (NetworkLayerService_CheckResult() != 0) {
+      /* Transition: '<S1>:528' */
+      /* Transition: '<S1>:559' */
+      ConfirmCmd_u8_Sig = 1;
+
+      /* Exit Internal 'MultipleFrameTransmission': '<S1>:99' */
+      /* Exit Internal 'ConsecutiveFrame': '<S1>:123' */
+      NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+        NetworkLayer_IN_NO_ACTIVE_CHILD;
+      NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+        NetworkLayer_IN_NO_ACTIVE_CHILD;
+      NetworkLayerServices_GF_DWork.is_Request = NetworkLayerServices_GF_IN_Idle;
+
+      /* Entry 'Idle': '<S1>:74' */
+      NetworkLayerServices_GF_DWork.Result_o = N_OK;
+    } else {
+      switch (NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission) {
+       case NetworkLaye_IN_ConsecutiveFrame:
+        /* During 'ConsecutiveFrame': '<S1>:123' */
+        switch (NetworkLayerServices_GF_DWork.is_ConsecutiveFrame) {
+         case NetworkLayerServices_GF_IN_Init:
+          /* During 'Init': '<S1>:161' */
+          if (NetworkLayerServices_GF_DWork.Result_o == N_OK) {
+            /* Transition: '<S1>:202' */
+            NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+              NetworkLayerServices_GF_IN_Wait;
+            NetworkLayerServices_GF_DWork.temporalCounter_i1 = 0U;
+          }
+          break;
+
+         case NetworkLayerSer_IN_Transmission:
+          /* During 'Transmission': '<S1>:126' */
+          /* Transition: '<S1>:173' */
+          NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+            NetworkLayerServices_GF_IN_Wait;
+          NetworkLayerServices_GF_DWork.temporalCounter_i1 = 0U;
+          break;
+
+         case NetworkLayerServices_GF_IN_Wait:
+          /* During 'Wait': '<S1>:201' */
+          if (NetworkLayerServices_GF_DWork.FF_DL_o == 0U) {
+            /* Transition: '<S1>:206' */
+            guard = TRUE;
+          } else if (NetworkLayerServices_GF_DWork.CF_DL == 0U) {
+            /* Transition: '<S1>:209' */
+            NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+              NetworkLayer_IN_NO_ACTIVE_CHILD;
+            NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+              NetworkLayer_IN_WaitFlowControl;
+            NetworkLayerServices_GF_DWork.temporalCounter_i1 = 0U;
+          } else if ((NetworkLayerServices_GF_DWork.sfEvent ==
+                      NetworkLayerServices_CALL_EVENT) &&
+                     (NetworkLayerServices_GF_DWork.temporalCounter_i1 >=
+                      NetworkLayerServices_GF_DWork.STmin)) {
+            /* Transition: '<S1>:174' */
+            NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+              NetworkLayerSer_IN_Transmission;
+
+            /* Entry 'Transmission': '<S1>:126' */
+            NetworkLayerServices_GF_DWork.tx_buffer_ptr = 0U;
+
+            /* Entry Internal 'Transmission': '<S1>:126' */
+            /* Transition: '<S1>:145' */
+            /* comment */
+            if (NetworkLayerServices_GF_DWork.SN < 15) {
+              /* Transition: '<S1>:144' */
+              /* Transition: '<S1>:143' */
+              NetworkLayerServices_GF_DWork.SN = (uint8_T)
+                (NetworkLayerServices_GF_DWork.SN + 1);
+
+              /* Transition: '<S1>:142' */
+            } else {
+              /* Transition: '<S1>:141' */
+              NetworkLayerServices_GF_DWork.SN = 0U;
+            }
+
+            /* Transition: '<S1>:130' */
+            /* Transition: '<S1>:131' */
+            NetworkLayerServices_GF_DWork.tx_buffer[NetworkLayerServices_GF_DWork.tx_buffer_ptr]
+              = (uint8_T)(((uint8_T)(ConsecutiveFrame << 4)) +
+                          NetworkLayerServices_GF_DWork.SN);
+            NetworkLayerServices_GF_DWork.tx_buffer_ptr = (uint8_T)
+              (NetworkLayerServices_GF_DWork.tx_buffer_ptr + 1);
+
+            /* Transition: '<S1>:159' */
+            /* comment */
+            if (NetworkLayerServices_GF_DWork.CF_DL < 7U) {
+              /* Transition: '<S1>:158' */
+              /* Transition: '<S1>:157' */
+              NetworkLayerServ_CopyToTxbuffer((uint8_T)
+                NetworkLayerServices_GF_DWork.CF_DL);
+              NetworkLayerServices_GF_DWork.FF_DL_o =
+                NetworkLayerServices_GF_DWork.FF_DL_o -
+                NetworkLayerServices_GF_DWork.CF_DL;
+              NetworkLayerServices_GF_DWork.CF_DL = 0U;
+
+              /* Transition: '<S1>:156' */
+            } else {
+              /* Transition: '<S1>:155' */
+              NetworkLayerServ_CopyToTxbuffer(7U);
+              NetworkLayerServices_GF_DWork.FF_DL_o =
+                NetworkLayerServices_GF_DWork.FF_DL_o - ((uint16_T)7);
+              NetworkLayerServices_GF_DWork.CF_DL =
+                NetworkLayerServices_GF_DWork.CF_DL - ((uint16_T)7);
+            }
+
+            /* Transition: '<S1>:132' */
+            UdsSend(NetworkLayerServices_GF_DWork.tx_buffer_ptr,
+                    NetworkLayerServices_GF_DWork.tx_buffer);
+          } else {
+            if ((NetworkLayerServices_GF_DWork.sfEvent ==
+                 NetworkLayerServices_CALL_EVENT) &&
+                (NetworkLayerServices_GF_DWork.temporalCounter_i1 >=
+                 CsTime_Limited_u16_Par)) {
+              /* Transition: '<S1>:586' */
+              NetworkLayerServices_GF_DWork.Result_o = N_TIMEOUT_A;
+              if (NetworkLayerService_CheckResult() != 0) {
+                /* Transition: '<S1>:528' */
+                guard = TRUE;
+              }
+            }
+          }
+          break;
+
+         default:
+          NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+            NetworkLayer_IN_NO_ACTIVE_CHILD;
+          break;
+        }
+        break;
+
+       case NetworkLayerServi_IN_FirstFrame:
+        /* During 'FirstFrame': '<S1>:106' */
+        /* Transition: '<S1>:118' */
+        NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+          NetworkLayer_IN_WaitFlowControl;
+        NetworkLayerServices_GF_DWork.temporalCounter_i1 = 0U;
+        break;
+
+       case NetworkLayer_IN_WaitFlowControl:
+        /* During 'WaitFlowControl': '<S1>:117' */
+        if (NetworkLayerServices_GF_DWork.sfEvent ==
+            NetworkLayerS_event_FC_Received) {
+          /* Transition: '<S1>:207' */
+          NetworkLayerServ_GetFCParameter();
+          NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+            NetworkLaye_IN_ConsecutiveFrame;
+
+          /* Entry 'ConsecutiveFrame': '<S1>:123' */
+          /* Entry Internal 'ConsecutiveFrame': '<S1>:123' */
+          /* Transition: '<S1>:147' */
+          if (NetworkLayerServices_GF_DWork.is_ConsecutiveFrame ==
+              NetworkLayerServices_GF_IN_Init) {
+          } else {
+            NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+              NetworkLayerServices_GF_IN_Init;
+
+            /* Entry 'Init': '<S1>:161' */
+            NetworkLayerServices_GF_DWork.CF_DL = 0U;
+          }
+
+          /* Entry Internal 'Init': '<S1>:161' */
+          /* Transition: '<S1>:186' */
+          /* comment */
+          if (NetworkLayerServices_GF_DWork.STmin == 0) {
+            /* Transition: '<S1>:188' */
+            /* Transition: '<S1>:193' */
+            NetworkLayerServices_GF_DWork.STmin = 1U;
+
+            /* Transition: '<S1>:192' */
+            /* Transition: '<S1>:191' */
+            /* Transition: '<S1>:198' */
+          } else {
+            /* Transition: '<S1>:187' */
+            if (NetworkLayerServices_GF_DWork.STmin <= 0x7F) {
+              /* Transition: '<S1>:195' */
+              /* Transition: '<S1>:194' */
+              /* Transition: '<S1>:191' */
+              /* Transition: '<S1>:198' */
+            } else {
+              /* Transition: '<S1>:190' */
+              if ((NetworkLayerServices_GF_DWork.STmin >= 0xF1) &&
+                  (NetworkLayerServices_GF_DWork.STmin <= 0xF9)) {
+                /* Transition: '<S1>:196' */
+                /* Transition: '<S1>:197' */
+                NetworkLayerServices_GF_DWork.STmin = 1U;
+
+                /* Transition: '<S1>:198' */
+              } else {
+                /* Transition: '<S1>:199' */
+                NetworkLayerServices_GF_DWork.Result_o = N_ERROR;
+              }
+            }
+          }
+
+          /* Transition: '<S1>:172' */
+          MaxBytes = (uint16_T)(7 * NetworkLayerServices_GF_DWork.BS);
+          if (NetworkLayerServices_GF_DWork.FF_DL_o > MaxBytes) {
+            /* Transition: '<S1>:171' */
+            /* Transition: '<S1>:170' */
+            NetworkLayerServices_GF_DWork.CF_DL = MaxBytes;
+
+            /* Transition: '<S1>:169' */
+          } else {
+            /* Transition: '<S1>:168' */
+            NetworkLayerServices_GF_DWork.CF_DL =
+              NetworkLayerServices_GF_DWork.FF_DL_o;
+          }
+
+          /* Transition: '<S1>:167' */
+        } else {
+          if ((NetworkLayerServices_GF_DWork.sfEvent ==
+               NetworkLayerServices_CALL_EVENT) &&
+              (NetworkLayerServices_GF_DWork.temporalCounter_i1 >=
+               BsTime_Limited_u16_Par)) {
+            /* Transition: '<S1>:575' */
+            NetworkLayerServices_GF_DWork.Result_o = N_TIMEOUT_A;
+            if (NetworkLayerService_CheckResult() != 0) {
+              /* Transition: '<S1>:528' */
+              /* Transition: '<S1>:559' */
+              ConfirmCmd_u8_Sig = 1;
+              NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+                NetworkLayer_IN_NO_ACTIVE_CHILD;
+              NetworkLayerServices_GF_DWork.is_Request =
+                NetworkLayerServices_GF_IN_Idle;
+
+              /* Entry 'Idle': '<S1>:74' */
+              NetworkLayerServices_GF_DWork.Result_o = N_OK;
+            }
+          }
+        }
+        break;
+
+       default:
+        NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+          NetworkLayer_IN_NO_ACTIVE_CHILD;
+        break;
+      }
+    }
+    break;
+
+   case Netw_IN_SingleFrameTransmission:
+    /* During 'SingleFrameTransmission': '<S1>:30' */
+    /* Transition: '<S1>:75' */
+    /* Transition: '<S1>:559' */
+    ConfirmCmd_u8_Sig = 1;
+    NetworkLayerServices_GF_DWork.is_Request = NetworkLayerServices_GF_IN_Idle;
+
+    /* Entry 'Idle': '<S1>:74' */
+    NetworkLayerServices_GF_DWork.Result_o = N_OK;
+    break;
+
+   case NetworkLayerServices_G_IN_Start:
+    /* During 'Start': '<S1>:49' */
+    switch (NetworkLayerServices_GF_DWork.TransmissionType) {
+     case 1:
+      /* Transition: '<S1>:53' */
+      NetworkLayerServices_GF_DWork.is_Request = Netw_IN_SingleFrameTransmission;
+
+      /* Entry 'SingleFrameTransmission': '<S1>:30' */
+      /* Entry Internal 'SingleFrameTransmission': '<S1>:30' */
+      /* Transition: '<S1>:32' */
+      NetworkLayerServices_GF_DWork.tx_buffer[NetworkLayerServices_GF_DWork.tx_buffer_ptr]
+        = (uint8_T)(((uint8_T)(SingleFrame << 4)) + ((uint8_T)
+        NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length));
+      NetworkLayerServices_GF_DWork.tx_buffer_ptr = (uint8_T)
+        (NetworkLayerServices_GF_DWork.tx_buffer_ptr + 1);
+
+      /* Transition: '<S1>:42' */
+      NetworkLayerServ_CopyToTxbuffer((uint8_T)
+        NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length);
+
+      /* Transition: '<S1>:46' */
+      UdsSend(NetworkLayerServices_GF_DWork.tx_buffer_ptr,
+              NetworkLayerServices_GF_DWork.tx_buffer);
+      break;
+
+     case 2:
+      /* Transition: '<S1>:100' */
+      NetworkLayerServices_GF_DWork.is_Request = Ne_IN_MultipleFrameTransmission;
+
+      /* Entry 'MultipleFrameTransmission': '<S1>:99' */
+      NetworkLayerServices_GF_DWork.CF_DL = 0U;
+      NetworkLayerServices_GF_DWork.SN = 0U;
+
+      /* Entry Internal 'MultipleFrameTransmission': '<S1>:99' */
+      /* Transition: '<S1>:119' */
+      if (NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission ==
+          NetworkLayerServi_IN_FirstFrame) {
+      } else {
+        NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+          NetworkLayerServi_IN_FirstFrame;
+
+        /* Entry 'FirstFrame': '<S1>:106' */
+      }
+
+      /* Entry Internal 'FirstFrame': '<S1>:106' */
+      /* Transition: '<S1>:110' */
+      NetworkLayerServices_GF_DWork.FF_DL_o =
+        NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length;
+      FF_N_PCI = ((uint16_T)(FirstFrame << 12)) +
+        NetworkLayerServices_GF_DWork.FF_DL_o;
+
+      /* Transition: '<S1>:111' */
+      NetworkLayerServices_GF_DWork.tx_buffer[NetworkLayerServices_GF_DWork.tx_buffer_ptr]
+        = (uint8_T)(FF_N_PCI >> 8);
+      NetworkLayerServices_GF_DWork.tx_buffer_ptr = (uint8_T)
+        (NetworkLayerServices_GF_DWork.tx_buffer_ptr + 1);
+      NetworkLayerServices_GF_DWork.tx_buffer[NetworkLayerServices_GF_DWork.tx_buffer_ptr]
+        = (uint8_T)FF_N_PCI;
+      NetworkLayerServices_GF_DWork.tx_buffer_ptr = (uint8_T)
+        (NetworkLayerServices_GF_DWork.tx_buffer_ptr + 1);
+      NetworkLayerServ_CopyToTxbuffer(6U);
+      NetworkLayerServices_GF_DWork.FF_DL_o =
+        NetworkLayerServices_GF_DWork.FF_DL_o - ((uint16_T)6);
+
+      /* Transition: '<S1>:112' */
+      UdsSend(NetworkLayerServices_GF_DWork.tx_buffer_ptr,
+              NetworkLayerServices_GF_DWork.tx_buffer);
+      break;
+
+     default:
+      /* Transition: '<S1>:569' */
+      if (NetworkLayerService_CheckResult() != 0) {
+        /* Transition: '<S1>:528' */
+        /* Transition: '<S1>:559' */
+        ConfirmCmd_u8_Sig = 1;
+        NetworkLayerServices_GF_DWork.is_Request =
+          NetworkLayerServices_GF_IN_Idle;
+
+        /* Entry 'Idle': '<S1>:74' */
+        NetworkLayerServices_GF_DWork.Result_o = N_OK;
+      }
+      break;
+    }
+    break;
+
+   default:
+    NetworkLayerServices_GF_DWork.is_Request = NetworkLayer_IN_NO_ACTIVE_CHILD;
+    break;
+  }
+
+  if (((int16_T)guard) == ((int16_T)TRUE)) {
+    /* Transition: '<S1>:559' */
+    ConfirmCmd_u8_Sig = 1;
+    NetworkLayerServices_GF_DWork.is_ConsecutiveFrame =
+      NetworkLayer_IN_NO_ACTIVE_CHILD;
+    NetworkLayerServices_GF_DWork.is_MultipleFrameTransmission =
+      NetworkLayer_IN_NO_ACTIVE_CHILD;
+    NetworkLayerServices_GF_DWork.is_Request = NetworkLayerServices_GF_IN_Idle;
+
+    /* Entry 'Idle': '<S1>:74' */
+    NetworkLayerServices_GF_DWork.Result_o = N_OK;
+  }
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static uint8_T NetworkLayerServi_FrameReceived(void)
+{
+  uint8_T y;
+
+  /* Graphical Function 'FrameReceived': '<S1>:250' */
+  /* Transition: '<S1>:263' */
+  /* comment */
+  if (RecFlag_u8_Sig == 1) {
+    /* Transition: '<S1>:262' */
+    /* Transition: '<S1>:261' */
+    y = 1U;
+    RecFlag_u8_Sig = 0;
+
+    /* Transition: '<S1>:260' */
+  } else {
+    /* Transition: '<S1>:259' */
+    y = 0U;
+  }
+
+  /* Transition: '<S1>:258' */
+  return y;
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static void NetworkLayerServ_CopyToRxbuffer(uint8_T length)
+{
+  uint8_T i;
+
+  /* Graphical Function 'CopyToRxbuffer': '<S1>:318' */
+  /* Transition: '<S1>:323' */
+  i = 0U;
+  while (i < length) {
+    /* Transition: '<S1>:324' */
+    /* Transition: '<S1>:327' */
+    UdsIndication.MessageData[NetworkLayerServices_GF_DWork.RxMessageDataPtr] =
+      (uint8_T)RXbuffer_u8a8_Sig[NetworkLayerServices_GF_DWork.rx_buffer_ptr];
+
+    /* Transition: '<S1>:325' */
+    i = (uint8_T)(i + 1);
+    NetworkLayerServices_GF_DWork.rx_buffer_ptr = (uint8_T)
+      (NetworkLayerServices_GF_DWork.rx_buffer_ptr + 1);
+    NetworkLayerServices_GF_DWork.RxMessageDataPtr = (uint8_T)
+      (NetworkLayerServices_GF_DWork.RxMessageDataPtr + 1);
+  }
+
+  /* Transition: '<S1>:326' */
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static void NetworkLayerService_CheckTatype(void)
+{
+  /* Graphical Function 'CheckTatype': '<S1>:481' */
+  /* Transition: '<S1>:501' */
+  /* comment */
+  if (RecID_u8_Sig == PHYSICAL_ID) {
+    /* Transition: '<S1>:503' */
+    /* Transition: '<S1>:504' */
+    UdsIndication.N_TAtype = physical;
+
+    /* Transition: '<S1>:507' */
+    /* Transition: '<S1>:508' */
+  } else {
+    /* Transition: '<S1>:502' */
+    if (RecID_u8_Sig == FUNCTIONAL_ID) {
+      /* Transition: '<S1>:505' */
+      /* Transition: '<S1>:506' */
+      UdsIndication.N_TAtype = functional;
+
+      /* Transition: '<S1>:508' */
+    } else {
+      /* Transition: '<S1>:509' */
+      NetworkLayerServices_GF_DWork.Result = N_ERROR;
+    }
+  }
+
+  /* Transition: '<S1>:510' */
+}
+
+/* Function for Chart: '<Root>/Chart' */
+static void NetworkLayerServices_Indication(void)
+{
+  int32_T b_previousEvent;
+  int32_T c_previousEvent;
+  uint8_T FS;
+  uint8_T SN;
+  boolean_T guard;
+  int16_T i;
+
+  /* During 'Indication': '<S1>:213' */
+  guard = FALSE;
+  switch (NetworkLayerServices_GF_DWork.is_Indication) {
+   case NetworkLayerServices_GF_IN_Idle:
+    /* During 'Idle': '<S1>:214' */
+    if (NetworkLayerServi_FrameReceived() != 0) {
+      /* Transition: '<S1>:216' */
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayerServices__IN_Switch;
+
+      /* Entry 'Switch': '<S1>:215' */
+      UdsIndication.N_Result = NetworkLayerServices_GF_DWork.Result;
+
+      /* Entry Internal 'Switch': '<S1>:215' */
+      /* Transition: '<S1>:285' */
+      NetworkLayerServices_GF_DWork.N_PCItype = (uint8_T)((int16_T)
+        (RXbuffer_u8a8_Sig[0] >> 4));
+    }
+    break;
+
+   case NetworkLayerSe_IN_MultipleFrame:
+    /* During 'MultipleFrame': '<S1>:223' */
+    if (NetworkLayerServices_GF_DWork.sfEvent == NetworkLayerServic_event_CF_END)
+    {
+      /* Transition: '<S1>:232' */
+      guard = TRUE;
+    } else if (NetworkLayerServices_GF_DWork.Result != N_OK) {
+      /* Transition: '<S1>:571' */
+      UdsIndication.N_Result = NetworkLayerServices_GF_DWork.Result;
+      guard = TRUE;
+    } else {
+      switch (NetworkLayerServices_GF_DWork.is_MultipleFrame) {
+       case NetworkLaye_IN_ConsecutiveFrame:
+        /* During 'ConsecutiveFrame': '<S1>:243' */
+        /* Transition: '<S1>:246' */
+        NetworkLayerServices_GF_DWork.is_MultipleFrame =
+          NetworkLayerServices_GF_IN_Wait;
+        NetworkLayerServices_GF_DWork.temporalCounter_i2 = 0U;
+        break;
+
+       case NetworkLayerServi_IN_FirstFrame:
+        /* During 'FirstFrame': '<S1>:241' */
+        /* Transition: '<S1>:244' */
+        NetworkLayerServices_GF_DWork.is_MultipleFrame =
+          NetworkLayerServices_GF_IN_Wait;
+        NetworkLayerServices_GF_DWork.temporalCounter_i2 = 0U;
+        break;
+
+       case NetworkLayerServices_GF_IN_Wait:
+        /* During 'Wait': '<S1>:242' */
+        if (NetworkLayerServi_FrameReceived() != 0) {
+          /* Transition: '<S1>:245' */
+          NetworkLayerServices_GF_DWork.is_MultipleFrame =
+            NetworkLaye_IN_ConsecutiveFrame;
+
+          /* Entry 'ConsecutiveFrame': '<S1>:243' */
+          NetworkLayerServices_GF_DWork.rx_buffer_ptr = 1U;
+
+          /* Entry Internal 'ConsecutiveFrame': '<S1>:243' */
+          /* Transition: '<S1>:412' */
+          /* comment */
+          if (NetworkLayerServices_GF_DWork.SN_Check < 15) {
+            /* Transition: '<S1>:416' */
+            /* Transition: '<S1>:415' */
+            NetworkLayerServices_GF_DWork.SN_Check = (uint8_T)
+              (NetworkLayerServices_GF_DWork.SN_Check + 1);
+
+            /* Transition: '<S1>:414' */
+          } else {
+            /* Transition: '<S1>:413' */
+            NetworkLayerServices_GF_DWork.SN_Check = 0U;
+          }
+
+          /* Transition: '<S1>:429' */
+          SN = (uint8_T)(((int16_T)RXbuffer_u8a8_Sig[0]) & 0x0F);
+          if (SN == NetworkLayerServices_GF_DWork.SN_Check) {
+            /* Transition: '<S1>:428' */
+            /* Transition: '<S1>:427' */
+            /* Transition: '<S1>:426' */
+          } else {
+            /* Transition: '<S1>:425' */
+            NetworkLayerServices_GF_DWork.Result = N_WRONG_SN;
+            NetworkLayerServices_GF_DWork.FF_DL = 0U;
+          }
+
+          /* Transition: '<S1>:454' */
+          /* comment */
+          if (NetworkLayerServices_GF_DWork.FF_DL < 7U) {
+            /* Transition: '<S1>:458' */
+            /* Transition: '<S1>:457' */
+            NetworkLayerServ_CopyToRxbuffer((uint8_T)
+              NetworkLayerServices_GF_DWork.FF_DL);
+            NetworkLayerServices_GF_DWork.FF_DL = 0U;
+
+            /* Transition: '<S1>:456' */
+          } else {
+            /* Transition: '<S1>:455' */
+            NetworkLayerServ_CopyToRxbuffer(7U);
+            NetworkLayerServices_GF_DWork.FF_DL =
+              NetworkLayerServices_GF_DWork.FF_DL - ((uint16_T)7);
+          }
+
+          /* Transition: '<S1>:459' */
+          if (NetworkLayerServices_GF_DWork.FF_DL == 0U) {
+            /* Transition: '<S1>:442' */
+            /* Transition: '<S1>:441' */
+            /* Event: '<S1>:447' */
+            b_previousEvent = NetworkLayerServices_GF_DWork.sfEvent;
+            NetworkLayerServices_GF_DWork.sfEvent =
+              NetworkLayerServic_event_CF_END;
+            if (NetworkLayerServices_GF_DWork.is_active_Indication == 0) {
+            } else {
+              NetworkLayerServices_Indication();
+            }
+
+            NetworkLayerServices_GF_DWork.sfEvent = b_previousEvent;
+
+            /* Transition: '<S1>:440' */
+          } else {
+            /* Transition: '<S1>:439' */
+          }
+
+          /* Transition: '<S1>:438' */
+        } else {
+          if ((NetworkLayerServices_GF_DWork.sfEvent ==
+               NetworkLayerServices_CALL_EVENT) &&
+              (NetworkLayerServices_GF_DWork.temporalCounter_i2 >=
+               CrTime_Limited_u16_Par)) {
+            /* Transition: '<S1>:577' */
+            NetworkLayerServices_GF_DWork.Result = N_TIMEOUT_A;
+          }
+        }
+        break;
+
+       default:
+        NetworkLayerServices_GF_DWork.is_MultipleFrame =
+          NetworkLayer_IN_NO_ACTIVE_CHILD;
+        break;
+      }
+    }
+    break;
+
+   case NetworkLayerServ_IN_SingleFrame:
+    /* During 'SingleFrame': '<S1>:217' */
+    /* Transition: '<S1>:230' */
+    /* Transition: '<S1>:573' */
+    IndicationCmd_u8_Sig = 2;
+
+    /* Transition: '<S1>:233' */
+    NetworkLayerServices_GF_DWork.is_Indication =
+      NetworkLayerServices_GF_IN_Idle;
+
+    /* Entry 'Idle': '<S1>:214' */
+    NetworkLayerServices_GF_DWork.Result = N_OK;
+    break;
+
+   case NetworkLayerServices__IN_Switch:
+    /* During 'Switch': '<S1>:215' */
+    switch (NetworkLayerServices_GF_DWork.N_PCItype) {
+     case SingleFrame:
+      /* Transition: '<S1>:219' */
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayerServ_IN_SingleFrame;
+
+      /* Entry 'SingleFrame': '<S1>:217' */
+      NetworkLayerServices_GF_DWork.RxMessageDataPtr = 0U;
+      NetworkLayerServices_GF_DWork.rx_buffer_ptr = 1U;
+
+      /* Entry Internal 'SingleFrame': '<S1>:217' */
+      /* Transition: '<S1>:332' */
+      NetworkLayerService_CheckTatype();
+      UdsIndication.Length = (uint16_T)(((int16_T)RXbuffer_u8a8_Sig[0]) & 0x0F);
+
+      /* Transition: '<S1>:333' */
+      NetworkLayerServ_CopyToRxbuffer((uint8_T)UdsIndication.Length);
+      break;
+
+     case FlowControl:
+      /* Transition: '<S1>:222' */
+      /* Transition: '<S1>:233' */
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayer_IN_NO_ACTIVE_CHILD;
+
+      /* Event: '<S1>:236' */
+      c_previousEvent = NetworkLayerServices_GF_DWork.sfEvent;
+      NetworkLayerServices_GF_DWork.sfEvent = NetworkLayerS_event_FC_Received;
+      if (NetworkLayerServices_GF_DWork.is_active_Request == 0) {
+      } else {
+        NetworkLayerServices_GF_Request();
+      }
+
+      NetworkLayerServices_GF_DWork.sfEvent = c_previousEvent;
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayerServices_GF_IN_Idle;
+
+      /* Entry 'Idle': '<S1>:214' */
+      NetworkLayerServices_GF_DWork.Result = N_OK;
+      break;
+
+     case FirstFrame:
+      /* Transition: '<S1>:224' */
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayerSe_IN_MultipleFrame;
+
+      /* Entry 'MultipleFrame': '<S1>:223' */
+      for (i = 0; i < 8; i = i + 1) {
+        NetworkLayerServices_GF_DWork.fc_buffer[i] = 0U;
+      }
+
+      NetworkLayerServices_GF_DWork.SN_Check = 0U;
+      NetworkLayerServices_GF_DWork.FF_DL = 0U;
+
+      /* Entry Internal 'MultipleFrame': '<S1>:223' */
+      /* Transition: '<S1>:247' */
+      if (NetworkLayerServices_GF_DWork.is_MultipleFrame ==
+          NetworkLayerServi_IN_FirstFrame) {
+      } else {
+        NetworkLayerServices_GF_DWork.is_MultipleFrame =
+          NetworkLayerServi_IN_FirstFrame;
+
+        /* Entry 'FirstFrame': '<S1>:241' */
+        NetworkLayerServices_GF_DWork.RxMessageDataPtr = 0U;
+        NetworkLayerServices_GF_DWork.rx_buffer_ptr = 0U;
+      }
+
+      /* Entry Internal 'FirstFrame': '<S1>:241' */
+      /* Transition: '<S1>:358' */
+      NetworkLayerServices_GF_DWork.FF_DL = (uint16_T)((((uint16_T)(((int16_T)
+        RXbuffer_u8a8_Sig[0]) & 0x0F)) << 8) + RXbuffer_u8a8_Sig[1]);
+
+      /* Transition: '<S1>:370' */
+      NetworkLayerServices_GF_DWork.N_PCItype = (uint8_T)((int16_T)FlowControl);
+      if (NetworkLayerServices_GF_DWork.FF_DL > MaxBufferSize) {
+        /* Transition: '<S1>:369' */
+        /* Transition: '<S1>:368' */
+        FS = (uint8_T)OverFlow;
+        NetworkLayerServices_GF_DWork.FF_DL = 0U;
+        NetworkLayerServices_GF_DWork.Result = N_BUFFER_OVFLW;
+
+        /* Transition: '<S1>:367' */
+      } else {
+        /* Transition: '<S1>:366' */
+        FS = (uint8_T)ContinuedToSend;
+        UdsIndication.Length = NetworkLayerServices_GF_DWork.FF_DL;
+        NetworkLayerService_CheckTatype();
+        NetworkLayerServices_GF_DWork.ffindication.Length = UdsIndication.Length;
+        NetworkLayerServices_GF_DWork.ffindication.N_TAtype =
+          UdsIndication.N_TAtype;
+        IndicationCmd_u8_Sig = 1;
+      }
+
+      /* Transition: '<S1>:365' */
+      NetworkLayerServices_GF_DWork.fc_buffer[0] = (uint8_T)(((uint8_T)
+        (NetworkLayerServices_GF_DWork.N_PCItype << 4)) + FS);
+      NetworkLayerServices_GF_DWork.fc_buffer[1] = 8U;
+      NetworkLayerServices_GF_DWork.fc_buffer[2] = 20U;
+
+      /* Transition: '<S1>:359' */
+      UdsSend(3, NetworkLayerServices_GF_DWork.fc_buffer);
+
+      /* Transition: '<S1>:392' */
+      /* comment */
+      if (FS == ContinuedToSend) {
+        /* Transition: '<S1>:394' */
+        /* Transition: '<S1>:395' */
+        NetworkLayerServices_GF_DWork.rx_buffer_ptr = 2U;
+        NetworkLayerServ_CopyToRxbuffer(6U);
+        NetworkLayerServices_GF_DWork.FF_DL =
+          NetworkLayerServices_GF_DWork.FF_DL - ((uint16_T)6);
+
+        /* Transition: '<S1>:398' */
+        /* Transition: '<S1>:399' */
+      } else {
+        /* Transition: '<S1>:393' */
+        /* Transition: '<S1>:400' */
+      }
+
+      /* Transition: '<S1>:401' */
+      break;
+
+     default:
+      /* Transition: '<S1>:240' */
+      /* Transition: '<S1>:573' */
+      IndicationCmd_u8_Sig = 2;
+
+      /* Transition: '<S1>:233' */
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayerServices_GF_IN_Idle;
+
+      /* Entry 'Idle': '<S1>:214' */
+      NetworkLayerServices_GF_DWork.Result = N_OK;
+      break;
+    }
+    break;
+
+   default:
+    NetworkLayerServices_GF_DWork.is_Indication =
+      NetworkLayer_IN_NO_ACTIVE_CHILD;
+    break;
+  }
+
+  if (((int16_T)guard) == ((int16_T)TRUE)) {
+    /* Transition: '<S1>:573' */
+    IndicationCmd_u8_Sig = 2;
+
+    /* Transition: '<S1>:233' */
+    /* Exit Internal 'MultipleFrame': '<S1>:223' */
+    NetworkLayerServices_GF_DWork.is_MultipleFrame =
+      NetworkLayer_IN_NO_ACTIVE_CHILD;
+    NetworkLayerServices_GF_DWork.is_Indication =
+      NetworkLayerServices_GF_IN_Idle;
+
+    /* Entry 'Idle': '<S1>:214' */
+    NetworkLayerServices_GF_DWork.Result = N_OK;
+  }
+}
+
+/* Model step function */
+void NetworkLayerServices_GF_step(void)
+{
+  int16_T i;
+  int16_T i_0;
+
+  /* BusCreator: '<Root>/BusConversion_InsertedFor_Chart_at_inport_0' incorporates:
+   *  Inport: '<Root>/In1'
+   */
+  NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Mtype =
+    UdsRequest.Mtype;
+  NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.N_SA =
+    UdsRequest.N_SA;
+  NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.N_TA =
+    UdsRequest.N_TA;
+  NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.N_TAtype =
+    UdsRequest.N_TAtype;
+  NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.N_AE =
+    UdsRequest.N_AE;
+  for (i = 0; i < 255; i = i + 1) {
+    NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.MessageData[i]
+      = UdsRequest.MessageData[i];
+  }
+
+  NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart.Length =
+    UdsRequest.Length;
+
+  /* End of BusCreator: '<Root>/BusConversion_InsertedFor_Chart_at_inport_0' */
+
+  /* Chart: '<Root>/Chart' */
+  /* Gateway: Chart */
+  NetworkLayerServices_GF_DWork.sfEvent = NetworkLayerServices_CALL_EVENT;
+  if (NetworkLayerServices_GF_DWork.temporalCounter_i1 < MAX_uint16_T) {
+    NetworkLayerServices_GF_DWork.temporalCounter_i1 =
+      NetworkLayerServices_GF_DWork.temporalCounter_i1 + ((uint16_T)1);
+  }
+
+  if (NetworkLayerServices_GF_DWork.temporalCounter_i2 < MAX_uint16_T) {
+    NetworkLayerServices_GF_DWork.temporalCounter_i2 =
+      NetworkLayerServices_GF_DWork.temporalCounter_i2 + ((uint16_T)1);
+  }
+
+  /* During: Chart */
+  if (NetworkLayerServices_GF_DWork.is_active_c1_NetworkLayerServic == 0) {
+    /* Entry: Chart */
+    NetworkLayerServices_GF_DWork.is_active_c1_NetworkLayerServic = 1U;
+
+    /* Entry Internal: Chart */
+    NetworkLayerServices_GF_DWork.is_active_Request = 1U;
+
+    /* Entry 'Request': '<S1>:212' */
+    NetworkLayerServices_GF_DWork.TransmissionType = 0U;
+    NetworkLayerServices_GF_DWork.FF_DL_o = 0U;
+    NetworkLayerServices_GF_DWork.MessageDataPtr = 0U;
+    NetworkLayerServices_GF_DWork.STmin = 0U;
+    NetworkLayerServices_GF_DWork.BS = 0U;
+    NetworkLayerServices_GF_DWork.tx_buffer_ptr = 0U;
+    for (i_0 = 0; i_0 < 8; i_0 = i_0 + 1) {
+      NetworkLayerServices_GF_DWork.tx_buffer[i_0] = 0U;
+    }
+
+    NetworkLayerServices_GF_DWork.Result_o = N_OK;
+
+    /* Entry Internal 'Request': '<S1>:212' */
+    /* Transition: '<S1>:76' */
+    if (NetworkLayerServices_GF_DWork.is_Request ==
+        NetworkLayerServices_GF_IN_Idle) {
+    } else {
+      NetworkLayerServices_GF_DWork.is_Request = NetworkLayerServices_GF_IN_Idle;
+
+      /* Entry 'Idle': '<S1>:74' */
+    }
+
+    NetworkLayerServices_GF_DWork.is_active_Indication = 1U;
+
+    /* Entry 'Indication': '<S1>:213' */
+    NetworkLayerServices_GF_DWork.N_PCItype = 0U;
+    NetworkLayerServices_GF_DWork.RxMessageDataPtr = 0U;
+    NetworkLayerServices_GF_DWork.rx_buffer_ptr = 0U;
+    NetworkLayerServices_GF_DWork.Result = N_OK;
+
+    /* Entry Internal 'Indication': '<S1>:213' */
+    /* Transition: '<S1>:225' */
+    if (NetworkLayerServices_GF_DWork.is_Indication ==
+        NetworkLayerServices_GF_IN_Idle) {
+    } else {
+      NetworkLayerServices_GF_DWork.is_Indication =
+        NetworkLayerServices_GF_IN_Idle;
+
+      /* Entry 'Idle': '<S1>:214' */
+    }
+  } else {
+    if (NetworkLayerServices_GF_DWork.is_active_Request == 0) {
+    } else {
+      NetworkLayerServices_GF_Request();
+    }
+
+    if (NetworkLayerServices_GF_DWork.is_active_Indication == 0) {
+    } else {
+      NetworkLayerServices_Indication();
+    }
+  }
+
+  /* End of Chart: '<Root>/Chart' */
+
+  /* Outport: '<Root>/Out1' */
+  NetworkLayerServices_GF_Y.Out1 = NetworkLayerServices_GF_DWork.ffindication;
+}
+
+/* Model initialize function */
+void NetworkLayerServices_GF_initialize(void)
+{
+  /* Registration code */
+
+  /* block I/O */
+
+  /* exported global signals */
+  UdsIndication = NetworkLayerServices_GF_rtZUSDATAINDICATION;
+  UdsConfirm = NetworkLayerServices_GF_rtZUSDATACONFIRM;
+
+  /* states (dwork) */
+  {
+    NetworkLayerServices_GF_DWork.BusConversion_InsertedFor_Chart =
+      NetworkLayerServices_GF_rtZUSDATAREQUEST;
+    NetworkLayerServices_GF_DWork.ffindication =
+      NetworkLayerServices_GF_rtZUSDATAFFINDICATION;
+  }
+
+  /* external inputs */
+  UdsRequest = NetworkLayerServices_GF_rtZUSDATAREQUEST;
+
+  /* external outputs */
+  NetworkLayerServices_GF_Y.Out1 = NetworkLayerServices_GF_rtZUSDATAFFINDICATION;
+
+  {
+    int16_T i;
+
+    /* InitializeConditions for Chart: '<Root>/Chart' */
+    NetworkLayerServices_GF_DWork.sfEvent = NetworkLayerServices_CALL_EVENT;
+    NetworkLayerServices_GF_DWork.Result = N_OK;
+    NetworkLayerServices_GF_DWork.Result_o = N_OK;
+    NetworkLayerServices_GF_DWork.ffindication.Mtype = diagnostics;
+    NetworkLayerServices_GF_DWork.ffindication.N_SA = 0U;
+    NetworkLayerServices_GF_DWork.ffindication.N_TA = 0U;
+    NetworkLayerServices_GF_DWork.ffindication.N_TAtype = physical;
+    NetworkLayerServices_GF_DWork.ffindication.N_AE = 0U;
+    NetworkLayerServices_GF_DWork.ffindication.Length = 0U;
+    NetworkLayerServices_GF_DWork.is_active_c1_NetworkLayerServic=0;
+    UdsIndication.Mtype = diagnostics;
+    UdsIndication.N_SA = 0U;
+    UdsIndication.N_TA = 0U;
+    UdsIndication.N_TAtype = physical;
+    UdsIndication.N_AE = 0U;
+    for (i = 0; i < 255; i = i + 1) {
+      UdsIndication.MessageData[i] = 0U;
+    }
+
+    UdsIndication.Length = 0U;
+    UdsIndication.N_Result = N_OK;
+    UdsConfirm.Mtype = diagnostics;
+    UdsConfirm.N_SA = 0U;
+    UdsConfirm.N_TA = 0U;
+    UdsConfirm.N_TAtype = physical;
+    UdsConfirm.N_AE = 0U;
+    UdsConfirm.N_Result = N_OK;
+
+    /* End of InitializeConditions for Chart: '<Root>/Chart' */
+  }
+}
+
+/*
+ * File trailer for generated code.
+ *
+ * [EOF]
+ */
